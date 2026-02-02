@@ -170,9 +170,9 @@ const PromptInterface = {
             this.execute();
         });
 
-        // Execute on Cmd/Ctrl + Enter
+        // Execute on Enter (Shift+Enter for new line)
         this.elements.input.addEventListener('keydown', (e) => {
-            if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+            if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 this.execute();
             }
