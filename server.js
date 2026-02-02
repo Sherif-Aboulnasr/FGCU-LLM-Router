@@ -111,11 +111,17 @@ const MODEL_CONFIG = {
     }
 };
 
+// System prompt for concise responses
+const SYSTEM_PROMPT = "Be concise and direct in your responses. Avoid unnecessary filler words, repetition, or overly verbose explanations. Get straight to the point while still being helpful and accurate.";
+
 // Generate with OpenAI
 async function generateWithOpenAI(prompt, modelId, res) {
     const stream = await getOpenAI().chat.completions.create({
         model: modelId,
-        messages: [{ role: 'user', content: prompt }],
+        messages: [
+            { role: 'system', content: SYSTEM_PROMPT },
+            { role: 'user', content: prompt }
+        ],
         stream: true
     });
 
@@ -135,7 +141,10 @@ async function generateWithOpenAI(prompt, modelId, res) {
 async function generateWithGroq(prompt, modelId, res) {
     const stream = await getGroq().chat.completions.create({
         model: modelId,
-        messages: [{ role: 'user', content: prompt }],
+        messages: [
+            { role: 'system', content: SYSTEM_PROMPT },
+            { role: 'user', content: prompt }
+        ],
         stream: true
     });
 
@@ -153,7 +162,10 @@ async function generateWithGroq(prompt, modelId, res) {
 
 // Generate with Google
 async function generateWithGoogle(prompt, modelId, res) {
-    const model = getGoogleAI().getGenerativeModel({ model: modelId });
+    const model = getGoogleAI().getGenerativeModel({
+        model: modelId,
+        systemInstruction: SYSTEM_PROMPT
+    });
 
     res.setHeader('Content-Type', 'text/plain');
     res.setHeader('Transfer-Encoding', 'chunked');
