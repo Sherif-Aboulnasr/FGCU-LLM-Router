@@ -214,14 +214,24 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`
+// Serve index.html for root
+app.get('/', (req, res) => {
+    res.sendFile(join(__dirname, 'index.html'));
+});
+
+// Start server (only in non-Vercel environment)
+if (process.env.VERCEL !== '1') {
+    app.listen(PORT, () => {
+        console.log(`
 ╭─────────────────────────────────────╮
 │                                     │
 │   FGCU LLM Router                   │
 │   Running on http://localhost:${PORT}  │
 │                                     │
 ╰─────────────────────────────────────╯
-    `);
-});
+        `);
+    });
+}
+
+// Export for Vercel
+export default app;
