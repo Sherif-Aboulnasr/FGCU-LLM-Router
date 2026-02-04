@@ -831,6 +831,55 @@ body {
     color: var(--text-tertiary);
 }
 
+/* Custom Cursor */
+.custom-cursor {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--accent-primary);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 10000;
+    transition: transform 0.15s ease-out, opacity 0.15s, background 0.15s;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+}
+
+.custom-cursor.visible {
+    opacity: 1;
+}
+
+.custom-cursor.hovering {
+    transform: translate(-50%, -50%) scale(1.5);
+    background: var(--accent-glow);
+}
+
+/* Gradient Spotlight */
+.spotlight {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(
+        600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        var(--accent-glow),
+        transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.spotlight.visible {
+    opacity: 1;
+}
+
+/* Hide custom cursor on touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .custom-cursor {
+        display: none;
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 640px) {
     .main-content {

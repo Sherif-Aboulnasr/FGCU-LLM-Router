@@ -35,6 +35,70 @@ const ThemeManager = {
 };
 
 // ============================================
+// Custom Cursor & Spotlight
+// ============================================
+
+const CursorManager = {
+    cursor: null,
+    spotlight: null,
+    cursorX: 0,
+    cursorY: 0,
+    currentX: 0,
+    currentY: 0,
+
+    init() {
+        this.cursor = document.getElementById('customCursor');
+        this.spotlight = document.getElementById('spotlight');
+
+        if (!this.cursor || !this.spotlight) return;
+
+        // Track mouse position
+        document.addEventListener('mousemove', (e) => {
+            this.cursorX = e.clientX;
+            this.cursorY = e.clientY;
+
+            // Update spotlight position
+            this.spotlight.style.setProperty('--mouse-x', e.clientX + 'px');
+            this.spotlight.style.setProperty('--mouse-y', e.clientY + 'px');
+        });
+
+        // Show cursor and spotlight on mouse enter
+        document.addEventListener('mouseenter', () => {
+            this.cursor.classList.add('visible');
+            this.spotlight.classList.add('visible');
+        });
+
+        // Hide cursor on mouse leave
+        document.addEventListener('mouseleave', () => {
+            this.cursor.classList.remove('visible');
+            this.spotlight.classList.remove('visible');
+        });
+
+        // Hover state for interactive elements
+        document.querySelectorAll('button, a, .option, .select-trigger, textarea').forEach(el => {
+            el.addEventListener('mouseenter', () => this.cursor.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => this.cursor.classList.remove('hovering'));
+        });
+
+        // Start animation loop
+        this.animate();
+    },
+
+    animate() {
+        // Smooth easing for cursor follow
+        this.currentX += (this.cursorX - this.currentX) * 0.15;
+        this.currentY += (this.cursorY - this.currentY) * 0.15;
+
+        if (this.cursor) {
+            this.cursor.style.left = this.currentX + 'px';
+            this.cursor.style.top = this.currentY + 'px';
+        }
+
+        requestAnimationFrame(() => this.animate());
+    }
+};
+
+// ============================================
 // Custom Select Component
 // ============================================
 
@@ -358,6 +422,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     ThemeManager.init();
+    CursorManager.init();
     ModelSelect.init();
     PromptInterface.init();
     ResponseHandler.init();
