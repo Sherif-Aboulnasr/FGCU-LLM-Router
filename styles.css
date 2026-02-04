@@ -203,6 +203,12 @@ body {
     letter-spacing: -0.02em;
 }
 
+.built-by {
+    font-size: 0.8125rem;
+    color: var(--text-tertiary);
+    margin-left: auto;
+    margin-right: var(--space-md);
+}
 
 .theme-toggle {
     width: 40px;
@@ -819,18 +825,6 @@ body {
 @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
-}
-
-/* Footer */
-.footer {
-    margin-top: auto;
-    padding: var(--space-lg) 0 var(--space-md);
-    text-align: center;
-}
-
-.footer p {
-    font-size: 0.8125rem;
-    color: var(--text-tertiary);
 }
 
 /* Custom Cursor */
